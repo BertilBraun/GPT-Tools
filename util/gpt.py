@@ -21,18 +21,6 @@ GPT4 = "gpt-4"
 DEFAULT_MODEL = GPT4
 
 
-def _messages_to_map(messages: list[str], system_message: str) -> list[dict[str, str]]:
-    prompts = [{"role": "system", "content": system_message}]
-    is_user = len(messages) % 2 == 1
-
-    for message in messages:
-        role = "user" if is_user else "assistant"
-        prompts.append({"role": role, "content": message})
-        is_user = not is_user
-
-    return prompts
-
-
 def chat_completion(messages: list[str] | str, system_message: str = SYSTEM_PROMPT, model: str = DEFAULT_MODEL, stream_output: bool = False) -> str:
     if isinstance(messages, str):
         messages = [messages]
@@ -92,8 +80,10 @@ def gpt_in_parallel(messages: list[list[str]], system_message: str = SYSTEM_PROM
         return chat_completion(msg_list, system_message=system_message, model=model, stream_output=False)
 
     with ThreadPoolExecutor() as executor:
-        future_to_index = {executor.submit(
-            worker, msg_list): index for index, msg_list in enumerate(messages)}
+        future_to_index = {
+            executor.submit(worker, msg_list): index
+            for index, msg_list in enumerate(messages)
+        }
 
         for future in as_completed(future_to_index):
             index = future_to_index[future]
@@ -109,3 +99,15 @@ def create_embedding(input: str) -> list[float]:
     )
 
     return response['data'][0]['embedding']
+
+
+def _messages_to_map(messages: list[str], system_message: str) -> list[dict[str, str]]:
+    prompts = [{"role": "system", "content": system_message}]
+    is_user = len(messages) % 2 == 1
+
+    for message in messages:
+        role = "user" if is_user else "assistant"
+        prompts.append({"role": role, "content": message})
+        is_user = not is_user
+
+    return prompts

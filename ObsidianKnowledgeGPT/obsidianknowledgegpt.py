@@ -10,17 +10,17 @@ def process_lecture_with_topics(lecture: str, topics: str) -> None:
     os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
     PROMPT = """
-    The following is an example of a generated information card for the topic "Neural Networks":
-    ---
-    # Neural Networks
+The following is an example of a generated information card for the topic "Neural Networks":
+---
+# Neural Networks
 
-    - **Definition**: Neural networks are a set of algorithms modeled after the human brain, designed to recognize patterns.
-    - **Usage**: Used in applications like image and speech recognition, medical diagnosis, and financial forecasting.
-    - **Related Topics**: [[Machine Learning]], [[Deep Learning]]
-    ---
+- **Definition**: Neural networks are a set of algorithms modeled after the human brain, designed to recognize patterns.
+- **Usage**: Used in applications like image and speech recognition, medical diagnosis, and financial forecasting.
+- **Related Topics**: [[Machine Learning]], [[Deep Learning]]
+---
 
-    Generate an information card for the topic "{topic}" in the context of "{lecture}" including Definition, Usage, and Related Topics:
-    """
+Generate an information card for the topic "{topic}" in the context of "{lecture}" including Definition, Usage, and Related Topics:
+"""
 
     topics = topics.split("\n")
 
@@ -43,12 +43,12 @@ def process_lecture_with_topics(lecture: str, topics: str) -> None:
     outputs = gpt_in_parallel(prompts)
 
     PROPERTIES = """---
-    title: {title}
-    created: {date} {day}
-    Tags: Informatics, {lecture}
-    ---
+title: {title}
+created: {date} {day}
+Tags: Informatics, {lecture}
+---
 
-    """
+"""
 
     for knowledge, topic in zip(outputs, topics):
         with open(f"{OUTPUT_FOLDER}/{topic}.md", "w") as f:
@@ -59,15 +59,15 @@ def process_lecture_with_topics(lecture: str, topics: str) -> None:
             f.write(knowledge)
 
     OVERVIEW = """
-    # {lecture}
+# {lecture}
 
-    ```dataview
-    LIST
-    WHERE contains(file.folder, this.file.folder) AND choice(contains(file.name, "_Index_of"), false, true)
-    ```
+```dataview
+LIST
+WHERE contains(file.folder, this.file.folder) AND choice(contains(file.name, "_Index_of"), false, true)
+```
 
-    {topics}
-    """
+{topics}
+"""
 
     TOPIC = "- [[{topic}]]"
 

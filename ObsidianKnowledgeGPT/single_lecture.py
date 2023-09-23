@@ -1,5 +1,5 @@
 
-from ObsidianKnowledgeGPT.obsidianknowledgegpt import process_lecture_with_topics
+from ObsidianKnowledgeGPT.obsidianknowledgegpt import generate_overview_page_entries, process_lecture_with_topics
 from util.input import input_from_clipboard
 
 
@@ -12,3 +12,5 @@ print(
     f"Text copied from clipboard (len {len(clipboard_content)}). Generating knowledge...")
 
 process_lecture_with_topics(lecture, clipboard_content)
+
+generate_overview_page_entries([lecture])
