@@ -1,5 +1,7 @@
+from collections import defaultdict
 import os
 import sys
+import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import openai
@@ -20,6 +22,17 @@ GPT4 = "gpt-4"
 
 DEFAULT_MODEL = GPT4
 
+TOKEN_RATE_LIMIT_BY_MODEL = {
+    GPT3: 180000,
+    GPT4: 40000
+}
+
+# (token_count) entries for rate limit issues
+# rate limit:
+# GPT4: is 200 requests / min and 40.000 tokens / min
+# GPT3: is 3.500 requests / min and 180.000 tokens / min
+requests = defaultdict(int)
+
 
 def chat_completion(messages: list[str] | str, system_message: str = SYSTEM_PROMPT, model: str = DEFAULT_MODEL, stream_output: bool = False) -> str:
     if isinstance(messages, str):
@@ -38,12 +51,19 @@ def chat_completion(messages: list[str] | str, system_message: str = SYSTEM_PROM
         for message in messages:
             f.write(str(message) + "\n\n")
 
+    total_tokens = count_tokens_in_messages(messages + [system_message])
     print(
-        f"Fetching response ({count_tokens_in_messages(messages)} tokens in messages) for {len(messages)} messages.")
+        f"Fetching response ({total_tokens} tokens in messages) for {len(messages)} messages.")
+
+    requests[model] += total_tokens + MAX_TOKENS
 
     if stream_output:
         sys.stdout.write("GPT: ")
         sys.stdout.flush()
+
+    while requests[model] > TOKEN_RATE_LIMIT_BY_MODEL[model]:
+        print("Rate limit exceeded, sleeping for 1 second...")
+        time.sleep(1)
 
     text = ""
     for res in openai.ChatCompletion.create(
@@ -62,6 +82,8 @@ def chat_completion(messages: list[str] | str, system_message: str = SYSTEM_PROM
             sys.stdout.write(content)
             sys.stdout.flush()
         text += content
+
+    requests[model] -= total_tokens + MAX_TOKENS
 
     if stream_output:
         sys.stdout.write("\n\n")
