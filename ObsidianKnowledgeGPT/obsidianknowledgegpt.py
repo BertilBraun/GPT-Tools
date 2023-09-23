@@ -23,6 +23,7 @@ Generate an information card for the topic "{topic}" in the context of "{lecture
 """
 
     topics = topics.split("\n")
+    lecture_tag = "".join([s.upper() for s in lecture.split(" ")])
 
     def cleanup(topic: str) -> str:
         # cleanup topics, make sure, that all topics start and end with a normal character [a-zA-Z], otherwise trim until they do
@@ -45,7 +46,7 @@ Generate an information card for the topic "{topic}" in the context of "{lecture
     PROPERTIES = """---
 title: {title}
 created: {date} {day}
-Tags: Informatics, {lecture}
+Tags: Informatics, {lecture_tag}
 ---
 
 """
@@ -53,7 +54,7 @@ Tags: Informatics, {lecture}
     for knowledge, topic in zip(outputs, topics):
         with open(f"{OUTPUT_FOLDER}/{topic}.md", "w", encoding="utf-8") as f:
             f.write(PROPERTIES.format(title=topic, date=get_date(),
-                    day=get_day(), lecture=lecture))
+                    day=get_day(), lecture_tag=lecture_tag))
 
             knowledge = knowledge.replace('---', '').strip()
             f.write(knowledge)
@@ -73,7 +74,7 @@ WHERE contains(file.folder, this.file.folder) AND choice(contains(file.name, "_I
 
     with open(f"{OUTPUT_FOLDER}/{lecture}.md", "w", encoding="utf-8") as f:
         f.write(PROPERTIES.format(title=lecture, date=get_date(),
-                day=get_day(), lecture=lecture))
+                day=get_day(), lecture_tag=lecture_tag))
 
         topics = "\n".join([TOPIC.format(topic=topic) for topic in topics])
         f.write(OVERVIEW.format(lecture=lecture, topics=topics))
