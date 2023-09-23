@@ -14,6 +14,7 @@ This repository contains a set of utility functions and tools for working with G
   - [Applications](#applications)
     - [AnkiGPT](#ankigpt)
     - [Slide Tools](#slide-tools)
+    - [Obsidian Knowledge](#obsidian-knowledge)
   - [Examples](#examples)
     - [Simple Example](#simple-example)
     - [Parallel Example](#parallel-example)
@@ -106,6 +107,10 @@ Automatically generates flashcards for learning content. Great for summarizing l
 ### Slide Tools
 
 Processes lecture slides to extract relevant topics and summarize lectures.
+
+### Obsidian Knowledge
+
+Automatically generates markdown notes for Obsidian based on given topics of a lecture.
 
 ## Examples
 
