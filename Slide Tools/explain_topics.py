@@ -1,5 +1,5 @@
 
-from util.gpt import chat_completion, gpt_in_parallel
+from util.gpt import gpt_in_parallel
 
 PROMPTS = [
     """

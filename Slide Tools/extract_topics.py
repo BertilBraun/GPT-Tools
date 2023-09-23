@@ -2,8 +2,7 @@ import os
 
 from pypdf import PdfReader
 
-from util import CONTENT_FORMAT, gpt3_summarize
-from util.gpt import GPT3, chat_completion, gpt_in_parallel
+from util.gpt import GPT3, gpt_in_parallel
 
 PROMPTS = [
     """Wie kann ich helfen?""",

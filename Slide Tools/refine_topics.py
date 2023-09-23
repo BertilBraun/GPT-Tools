@@ -19,6 +19,6 @@ INPUT_FILE = 'topics.md'
 
 topics = open(INPUT_FILE, 'r').read()
 
-response = chat_completion([PROMPT.format(text=topics)])
+response = chat_completion(PROMPT.format(text=topics))
 
 open(OUTPUT_FILE, 'w').write(response)

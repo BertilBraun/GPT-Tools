@@ -40,6 +40,7 @@ def cleanup_gpt_output(string: bytes) -> bytes:
         'ma�': 'maß',
         'w�nsch': 'wünsch',
         'ei�': 'eiß',
+        '�sung': 'ösung',
     }
 
     for key, value in mp.items():

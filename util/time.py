@@ -8,3 +8,7 @@ def get_time():
 
 def get_date():
     return datetime.datetime.now().strftime('%Y-%m-%d')
+
+
+def get_day():
+    return datetime.datetime.now().strftime('%A')

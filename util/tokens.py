@@ -7,7 +7,7 @@ MAX_TOKENS = 8000
 
 
 def count_tokens_in_messages(messages: list[str]) -> int:
-    return sum(count_tokens(message.content) for message in messages)
+    return sum(count_tokens(message) for message in messages)
 
 
 def count_tokens(text: str) -> int:
@@ -36,10 +36,12 @@ def chunk_string_by_tokens(s, start_words=3000, max_tokens=4000):
 
 def remove_messages_until_token_count_available(messages: list[str], token_count: int) -> list[str]:
     while count_tokens_in_messages(messages) > MAX_TOKENS - token_count:
-        print("Warning: removing message with " + str(count_tokens(messages[0].content)) + " tokens.")
+        print("Warning: removing message with " +
+              str(count_tokens(messages[0].content)) + " tokens.")
         messages.pop(0)
 
     if len(messages) == 0:
-        raise ValueError("No messages left after removing messages until token count available.")
+        raise ValueError(
+            "No messages left after removing messages until token count available.")
 
     return messages

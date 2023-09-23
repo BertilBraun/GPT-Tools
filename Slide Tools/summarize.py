@@ -36,7 +36,7 @@ with open('lectures.md', 'w') as f:
         lecture_number = int(last_lecture_number) + 1 if last_lecture_number else 1
 
         content = input_from_clipboard()
-        summary = chat_completion([PROMPT.format(text=content)])
+        summary = chat_completion(PROMPT.format(text=content))
 
         f.write(CONTENT_FORMAT.format(title=str(lecture_number), content=summary))
         f.flush()

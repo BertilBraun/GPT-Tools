@@ -35,6 +35,12 @@ This repository contains a set of utility functions and tools for working with G
 
 3. Place your OpenAI API key in a file named `openai-api-key.txt` at the root of the project.
 
+4. Run
+
+   ```bash
+   python -m AnkiGPT.ankigpt
+   ```
+
 ## Util Functions
 
 ### gpt.py
