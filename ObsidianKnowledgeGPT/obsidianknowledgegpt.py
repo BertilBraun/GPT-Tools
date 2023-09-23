@@ -51,7 +51,7 @@ Tags: Informatics, {lecture}
 """
 
     for knowledge, topic in zip(outputs, topics):
-        with open(f"{OUTPUT_FOLDER}/{topic}.md", "w") as f:
+        with open(f"{OUTPUT_FOLDER}/{topic}.md", "w", encoding="utf-8") as f:
             f.write(PROPERTIES.format(title=topic, date=get_date(),
                     day=get_day(), lecture=lecture))
 
@@ -71,7 +71,7 @@ WHERE contains(file.folder, this.file.folder) AND choice(contains(file.name, "_I
 
     TOPIC = "- [[{topic}]]"
 
-    with open(f"{OUTPUT_FOLDER}/{lecture}.md", "w") as f:
+    with open(f"{OUTPUT_FOLDER}/{lecture}.md", "w", encoding="utf-8") as f:
         f.write(PROPERTIES.format(title=lecture, date=get_date(),
                 day=get_day(), lecture=lecture))
 
@@ -99,5 +99,5 @@ Now generate an overview page entry for each of the lectures:
 
     output = chat_completion([prompt])
 
-    with open("knowledge/overview.md", "a") as f:
+    with open("knowledge/overview.md", "a", encoding="utf-8") as f:
         f.write(output.replace('---', '').strip())
