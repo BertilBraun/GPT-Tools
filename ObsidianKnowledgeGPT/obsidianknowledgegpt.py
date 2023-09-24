@@ -46,7 +46,11 @@ Generate an information card for the topic "{topic}" in the context of "{lecture
     PROPERTIES = """---
 title: {title}
 created: {date} {day}
-Tags: Informatics, {lecture_tag}
+Tags: 
+- Uni
+- Master
+- Informatics
+- {lecture_tag}
 ---
 
 """
@@ -99,6 +103,8 @@ Now generate an overview page entry for each of the lectures:
     prompt = PROMPT.format(lectures="\n".join(lectures))
 
     output = chat_completion([prompt])
+
+    os.makedirs("knowledge", exist_ok=True)
 
     with open("knowledge/overview.md", "a", encoding="utf-8") as f:
         f.write(output.replace('---', '').strip())
