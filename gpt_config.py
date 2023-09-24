@@ -1,7 +1,24 @@
 
 LOG_FOLDER = "logs"
 TEMPERATURE = 0.5
-MAX_TOKENS = 2048
+MAX_GENERATION_TOKENS = 2048
 TOP_P = 1
 FREQUENCY_PENALTY = 0
 PRESENCE_PENALTY = 0
+
+SYSTEM_PROMPT = """You are a helpful assistant helping a student."""
+
+GPT3 = "gpt-3.5-turbo-16k"
+GPT4 = "gpt-4"
+
+DEFAULT_MODEL = GPT4
+
+TOKEN_RATE_LIMIT_BY_MODEL = {
+    GPT3: 180000,
+    GPT4: 40000
+}
+
+MAX_TOKENS_BY_MODEL = {
+    GPT3: 16000,
+    GPT4: 4000
+}

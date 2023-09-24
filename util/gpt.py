@@ -6,26 +6,14 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import openai
 
-from gpt_config import (FREQUENCY_PENALTY, LOG_FOLDER, MAX_TOKENS,
-                        PRESENCE_PENALTY, TEMPERATURE, TOP_P)
+from gpt_config import (DEFAULT_MODEL, FREQUENCY_PENALTY, LOG_FOLDER, MAX_GENERATION_TOKENS, MAX_TOKENS_BY_MODEL,
+                        PRESENCE_PENALTY, SYSTEM_PROMPT, TEMPERATURE, TOKEN_RATE_LIMIT_BY_MODEL, TOP_P, GPT3, GPT4)
 from util.cleanup import cleanup_gpt_output
 from util.time import get_date, get_time
 from util.tokens import (count_tokens_in_messages,
                          remove_messages_until_token_count_available)
 
 openai.api_key = open("openai-api-key.txt", "r").read().strip()
-
-SYSTEM_PROMPT = """You are a helpful assistant helping a student."""
-
-GPT3 = "gpt-3.5-turbo-16k"
-GPT4 = "gpt-4"
-
-DEFAULT_MODEL = GPT4
-
-TOKEN_RATE_LIMIT_BY_MODEL = {
-    GPT3: 180000,
-    GPT4: 40000
-}
 
 # (token_count) entries for rate limit issues
 # rate limit:
@@ -38,7 +26,7 @@ def chat_completion(messages: list[str] | str, system_message: str = SYSTEM_PROM
     if isinstance(messages, str):
         messages = [messages]
     messages = remove_messages_until_token_count_available(
-        messages, MAX_TOKENS)
+        messages, MAX_GENERATION_TOKENS, model)
 
     folder_path = f"{LOG_FOLDER}/{get_date()}"
 
@@ -55,7 +43,7 @@ def chat_completion(messages: list[str] | str, system_message: str = SYSTEM_PROM
     print(
         f"Fetching response ({total_tokens} tokens in messages) for {len(messages)} messages.")
 
-    requests[model] += total_tokens + MAX_TOKENS
+    requests[model] += total_tokens + MAX_GENERATION_TOKENS
 
     if stream_output:
         sys.stdout.write("GPT: ")
@@ -70,7 +58,7 @@ def chat_completion(messages: list[str] | str, system_message: str = SYSTEM_PROM
         model=model,
         messages=_messages_to_map(messages, system_message),
         temperature=TEMPERATURE,
-        max_tokens=MAX_TOKENS,
+        max_tokens=MAX_GENERATION_TOKENS,
         top_p=TOP_P,
         frequency_penalty=FREQUENCY_PENALTY,
         presence_penalty=PRESENCE_PENALTY,
@@ -83,7 +71,7 @@ def chat_completion(messages: list[str] | str, system_message: str = SYSTEM_PROM
             sys.stdout.flush()
         text += content
 
-    requests[model] -= total_tokens + MAX_TOKENS
+    requests[model] -= total_tokens + MAX_GENERATION_TOKENS
 
     if stream_output:
         sys.stdout.write("\n\n")
