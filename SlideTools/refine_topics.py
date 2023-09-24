@@ -2,15 +2,15 @@
 from util.gpt import chat_completion
 
 PROMPT = """
-Dies ist meine Informationssicherheit Vorlesung am KIT.
-Im Folgenden die Themengebiete der Vorlesung:
+This is my data science lecture at KIT.
+The following are the topics of the lecture:
 ---
 
 {text}
 
 ---
-Entferne Thematisch gedoppelte Einträge und ordne die Themen in eine sinnvolle Reihenfolge.
-Gib mir eine Liste mit Aufzählungspunkten die diese Themen enthält zurück.
+Remove thematically duplicated entries and put the topics in a meaningful order.
+Return a list of bullet points containing these topics.
 """
 
 OUTPUT_FILE = 'topics_refined.md'
