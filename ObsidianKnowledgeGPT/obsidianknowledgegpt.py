@@ -23,7 +23,10 @@ Generate an information card for the topic "{topic}" in the context of "{lecture
 """
 
     topics = topics.split("\n")
-    lecture_tag = "".join([s.capitalize() for s in lecture.split(" ")])
+    lecture_tag = "".join([
+        s if s.isupper() else s.capitalize()
+        for s in lecture.split(" ")
+    ])
 
     def cleanup(topic: str) -> str:
         # cleanup topics, make sure, that all topics start and end with a normal character [a-zA-Z], otherwise trim until they do
