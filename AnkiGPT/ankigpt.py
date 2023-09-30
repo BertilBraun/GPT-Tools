@@ -32,10 +32,17 @@ prompts = [
     for chunk in chunk_string_by_tokens(lecture_content, start_words=100, max_tokens=400)
 ]
 
-flashcards = gpt_in_parallel(prompts, system_message=SYSTEM_PROMPT)
+flashcards_per_prompt = gpt_in_parallel(prompts, system_message=SYSTEM_PROMPT)
 
 with open(OUTPUT_FILE, "w", encoding='utf-8') as f:
-    for flashcard in flashcards:
-        f.write(flashcard)
+    for flashcards_for_prompt in flashcards_per_prompt:
+        for flashcard in flashcards_for_prompt.split('\n'):
+            flashcard = flashcard.strip()
+            if ';' not in flashcard:
+                continue
+            if flashcard.count(';') > 1:
+                f.write("WARNING: ")
+            f.write(flashcard + '\n')
+        f.write('\n\n\n')
 
 print(f"Flashcards saved to '{OUTPUT_FILE}'")
