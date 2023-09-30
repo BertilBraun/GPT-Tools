@@ -5,12 +5,12 @@ from util.time import get_date, get_day
 
 def process_lecture_with_topics(lecture: str, topics: str) -> None:
 
-    OUTPUT_FOLDER = f"generated/knowledge/{lecture}"
+    OUTPUT_FOLDER = f".generated/knowledge/{lecture}"
 
     os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
     PROMPT = """
-The following is an example of a generated information card for the topic "Neural Networks":
+The following is an example of a .generated information card for the topic "Neural Networks":
 ---
 # Neural Networks
 

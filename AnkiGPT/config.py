@@ -1,5 +1,5 @@
 
-OUTPUT_FOLDER = "generated/flashcards"
+OUTPUT_FOLDER = ".generated/flashcards"
 OUTPUT_FILE = "flashcards-{time}.txt"
 LECTURE = "Data Science"
 SYSTEM_PROMPT = "You are a helpful professor who helps a student understand the content of a lecture."
