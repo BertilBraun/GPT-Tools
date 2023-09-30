@@ -5,7 +5,7 @@ from util.time import get_date, get_day
 
 def process_lecture_with_topics(lecture: str, topics: str) -> None:
 
-    OUTPUT_FOLDER = f"knowledge/{lecture}"
+    OUTPUT_FOLDER = f"generated/knowledge/{lecture}"
 
     os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 

@@ -1,8 +1,6 @@
 **/__pycache__/**
 .vscode/**
 openai-api-key.txt
-**/logs/**
+generated/**
 InfiniteMemoryGPT/**
-flashcards/**
-knowledge/**
 ObsidianKnowledgeGPT/Topics/**

@@ -1,5 +1,5 @@
 
-LOG_FOLDER = "logs"
+LOG_FOLDER = "generated/logs"
 TEMPERATURE = 0.5
 MAX_GENERATION_TOKENS = 2048
 TOP_P = 1
