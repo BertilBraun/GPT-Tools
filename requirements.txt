@@ -1,3 +1,7 @@
 openai
 clipboard
 tiktoken
+torch 
+torchvision 
+torchaudio
+easyocr
